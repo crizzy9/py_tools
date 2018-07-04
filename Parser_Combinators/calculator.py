@@ -21,33 +21,42 @@ def number():
 
 @parsec.generate
 def addition():
-    n1 = yield number()
+    n1 = yield value
     yield plus
-    n2 = yield number()
+    n2 = yield value
     return float(n1) + float(n2)
 
 @parsec.generate
 def subtraction():
-    n1 = yield number()
+    n1 = yield value
     yield minus
-    n2 = yield number()
+    n2 = yield value
     return float(n1) - float(n2)
 
 @parsec.generate
 def multiplication():
-    n1 = yield number()
+    n1 = yield value
     yield multiply
-    n2 = yield number()
+    n2 = yield value
     return float(n1) * float(n2)
 
 @parsec.generate
 def division():
-    n1 = yield number()
+    n1 = yield value
     yield divide
-    n2 = yield number()
+    n2 = yield value
     return float(n1) / float(n2)
 
+@parsec.generate
+def operation_with_braces():
+    yield lbrace
+    owb = yield operation
+    yield rbrace
+    return owb
+
+value = operation_with_braces | number()
 operation = addition | subtraction | multiplication | division
+expression = operation | operation_with_braces
 
 # @parsec.generate
 # def value():
@@ -68,8 +77,8 @@ operation = addition | subtraction | multiplication | division
 #
 #     return without_braces | with_braces
 
-parser = whitespace >> operation
+parser = whitespace >> operation_with_braces
 
 # assert parser.parse(example) == expected
 
-print(parser.parse('1 - 2'))
+print(parser.parse('2 + (1 + 2)'))

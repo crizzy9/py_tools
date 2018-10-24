@@ -1,5 +1,10 @@
 import logging
 
+# TODO:
+# display logs accurately with level
+# use same logger to stream logs and file logs
+# figure out how to loop through extras and log them. Might also give levels to extra
+
 # using basicConfig
 #FORMAT = '%(asctime)-15s [%(levelname)s] %(name)-8s %(message)s - %(appid)s'
 #logging.basicConfig(level=logging.DEBUG, format=FORMAT)
